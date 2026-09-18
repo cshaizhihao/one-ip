@@ -1737,5 +1737,10 @@
   "出口 IP": "Egress IP",
   "评分和标记来自 Net.Coffee，不是 Claude 官方的账号风控结论；未知不等于安全。": "Scores and flags come from Net.Coffee, not Claude's official account risk system. Unknown does not mean safe.",
   "查看完整 IP 报告": "View full IP report",
-  "如对本站使用或隐私有疑问，请通过源码仓库提交 Issue。": "For questions about this site or privacy, open an issue in the source repository."
+  "如对本站使用或隐私有疑问，请通过源码仓库提交 Issue。": "For questions about this site or privacy, open an issue in the source repository.",
+  "查询归属地、运营商、ASN、信誉与网络属性": "Look up location, ISP, ASN, reputation and network attributes",
+  "查询 IP": "Look up IP",
+  "清空记录": "Clear history",
+  "删除查询记录": "Delete lookup",
+  "删除 {0} 的查询记录": "Delete lookup for {0}"
 }

@@ -23,4 +23,5 @@ test("home platform summary initializes its featured services when imported", ()
   };
   new Function("require", "exports", outputText)(require, exports);
   assert.equal(typeof exports.PlatformSummary, "function");
+  assert.doesNotMatch(source, /IntersectionObserver|enabled:\s*visible/);
 });

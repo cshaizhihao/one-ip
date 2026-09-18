@@ -39,9 +39,35 @@ export function useLookupHistory<T>(key: string) {
     },
     [key],
   );
+  const remove = useCallback(
+    (query: string) => {
+      setEntries((previous) => {
+        const next = previous.filter(
+          (entry) => entry.query.toLowerCase() !== query.toLowerCase(),
+        );
+        try {
+          localStorage.setItem(key, JSON.stringify(next));
+        } catch {
+          /* Storage may be unavailable. Keep this session usable. */
+        }
+        return next;
+      });
+    },
+    [key],
+  );
+  const clear = useCallback(() => {
+    setEntries([]);
+    try {
+      localStorage.removeItem(key);
+    } catch {
+      /* Storage may be unavailable. Keep this session usable. */
+    }
+  }, [key]);
   return {
     entries,
     save,
+    remove,
+    clear,
     find: (query: string) =>
       entries.find(
         (entry) => entry.query.toLowerCase() === query.toLowerCase(),

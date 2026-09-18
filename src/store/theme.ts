@@ -7,14 +7,12 @@ export type Theme = "light" | "dark" | "system";
 
 export const themeAtom = atomWithStorage<Theme>(
   "theme",
-  "system",
+  "dark",
   {
     getItem(key, initialValue) {
       try {
         const value = localStorage.getItem(key);
-        return value === "light" || value === "dark" || value === "system"
-          ? value
-          : initialValue;
+        return value === "light" || value === "dark" ? value : initialValue;
       } catch {
         return initialValue;
       }

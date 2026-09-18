@@ -3,6 +3,7 @@ import { aiPlatforms } from "@/views/ai/platforms";
 
 export const navigationRoutes = [
   { value: "/", label: t("概览"), short: t("概览") },
+  { value: "/network/ip", label: t("IP 检测"), short: "IP" },
   { value: "/ai/", label: t("AI 检测"), short: "AI" },
   { value: "/status/", label: t("服务状态"), short: t("状态") },
   { value: "/network/", label: t("网络检测"), short: t("网络") },
@@ -59,11 +60,11 @@ export const legacyRoutes: Record<string, string> = {
 export function activeNavigationRoute(pathname: string) {
   const path = pathname.replace(/\/+$/, "") || "/";
   if (path === "/") return "/";
+  if (/^\/network\/ip(?:\/[^/]+)?$/.test(path)) return "/network/ip";
   for (const [group, routes] of Object.entries(toolGroups)) {
     if (path === `/${group}` || routes.some((route) => route.path === path))
       return `/${group}/`;
   }
-  if (/^\/network\/ip\/[^/]+$/.test(path)) return "/network/";
   return /^\/status(?:\/(?:openai|claude))?$/.test(path)
     ? "/status/"
     : "not-found";

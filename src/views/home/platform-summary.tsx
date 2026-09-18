@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { SiteLogo } from "@/components/site-logo";
 import { Pending } from "@/components/toolkit";
@@ -30,25 +29,11 @@ const statusLabels: Record<string, string> = {
   maintenance: t("维护中"),
 };
 export function PlatformSummary() {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    if (!ref.current) return;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setVisible(true);
-        observer.disconnect();
-      }
-    });
-    observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
   const connectivity = useQueries({
     queries: aiPlatforms.map((platform) => ({
       queryKey: ["ai-preview", "v3", platform.id],
       queryFn: ({ signal }: { signal: AbortSignal }) =>
         probeAiDomain(platform.domain, signal),
-      enabled: visible,
       staleTime: 120_000,
       retry: false,
       refetchOnWindowFocus: false,
@@ -59,7 +44,6 @@ export function PlatformSummary() {
       queryKey: ["service-status", service.id],
       queryFn: ({ signal }: { signal: AbortSignal }) =>
         getStatus(service.id, signal),
-      enabled: visible,
       staleTime: 120_000,
       retry: false,
       refetchOnWindowFocus: false,
@@ -86,7 +70,7 @@ export function PlatformSummary() {
     orderedPlatforms.map(({ platform }) => platform.id).join("|"),
   );
   return (
-    <div ref={ref} className="home-platform-summary">
+    <div className="home-platform-summary">
       <Card className="home-ai-summary">
         <CardHeader>
           <CardTitle as="h2">{t("AI 访问概览")}</CardTitle>

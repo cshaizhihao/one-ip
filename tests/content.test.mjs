@@ -25,7 +25,7 @@ test("removed DNS and news routes have no page source or navigation entries", ()
   assert.doesNotMatch(app, /DnsPage|NewsPage|ArticlePage|articlePaths/);
   assert.ok(navigationRoutes.every((route) => !/dns|news/.test(route.value)));
 });
-test("animated navigation maps IP details and live status to their parent tools", () => {
+test("animated navigation keeps IP lookup primary and maps live status", () => {
   for (const route of navigationRoutes) {
     assert.equal(activeNavigationRoute(route.value), route.value);
     assert.equal(
@@ -33,7 +33,7 @@ test("animated navigation maps IP details and live status to their parent tools"
       route.value,
     );
   }
-  assert.equal(activeNavigationRoute("/network/ip/1.1.1.1"), "/network/");
+  assert.equal(activeNavigationRoute("/network/ip/1.1.1.1"), "/network/ip");
   assert.equal(activeNavigationRoute("/status/claude"), "/status/");
   assert.equal(activeNavigationRoute("/status/openai"), "/status/");
   for (const path of [
@@ -90,7 +90,7 @@ test("tool routes select their grouped navigation", () => {
     assert.equal(activeNavigationRoute(path), "/network/");
   assert.equal(activeNavigationRoute("/network/whois/"), "/network/");
   assert.equal(activeNavigationRoute("/ai/claude/"), "/ai/");
-  assert.equal(navigationRoutes.length, 5);
+  assert.equal(navigationRoutes.length, 6);
 });
 
 test("all module links map to exactly one parent and legacy paths redirect to canonical destinations", () => {
@@ -100,7 +100,10 @@ test("all module links map to exactly one parent and legacy paths redirect to ca
   assert.equal(new Set(paths).size, paths.length);
   for (const [group, routes] of Object.entries(toolGroups))
     for (const route of routes)
-      assert.equal(activeNavigationRoute(route.path), `/${group}/`);
+      assert.equal(
+        activeNavigationRoute(route.path),
+        route.path === "/network/ip" ? "/network/ip" : `/${group}/`,
+      );
   for (const to of Object.values(legacyRoutes))
     assert.notEqual(activeNavigationRoute(to), "not-found", to);
   assert.equal(legacyRoutes["/network/webrtc"], "/browser/privacy");

@@ -1,5 +1,6 @@
 import { Suspense, useEffect, useRef } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { AmbientStarfield } from "@/components/ambient-starfield";
 import { BuildInfo } from "@/components/build-info";
 import { LanguageSelect } from "@/components/language-select";
 import { AppUpdateChecker } from "@/components/providers/app-update-checker";
@@ -11,14 +12,22 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { UnderlineHover } from "@/components/underline-hover";
 import { useTheme } from "@/hooks/use-theme";
 import { t } from "@/i18n";
-import { Search, Globe, Cable, Activity, Sparkles } from "lucide-react";
+import {
+  LayoutDashboard,
+  ScanSearch,
+  Globe,
+  Cable,
+  Activity,
+  Sparkles,
+} from "lucide-react";
 import { Tabs } from "radix-ui";
 import { Toaster } from "sonner";
 import { RouteErrorBoundary } from "./route-error-boundary";
 import { activeNavigationRoute, navigationRoutes } from "./routes";
 
 const menuIcons = {
-  "/": Search,
+  "/": LayoutDashboard,
+  "/network/ip": ScanSearch,
   "/browser/": Globe,
   "/network/": Cable,
   "/ai/": Sparkles,
@@ -88,6 +97,7 @@ export function AppLayout() {
 
   return (
     <>
+      <AmbientStarfield />
       <div className="app-container" data-home={pathname === "/" || undefined}>
         <header className="mobile-site-header">
           <Link
@@ -137,7 +147,7 @@ export function AppLayout() {
           )}
         >
           <Tabs.Content value={activeRoute} asChild>
-            <main className="outline-none">
+            <main key={pathname} className="app-main outline-none">
               <RouteErrorBoundary key={activeRoute}>
                 <Suspense
                   fallback={
@@ -162,10 +172,6 @@ export function AppLayout() {
             >
               {t("上游项目")}
             </a>
-          </UnderlineHover>{" "}
-          ·{" "}
-          <UnderlineHover asChild>
-            <Link to="/docs/api">API</Link>
           </UnderlineHover>{" "}
           ·{" "}
           <UnderlineHover asChild>

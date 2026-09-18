@@ -26,6 +26,7 @@ import { testConnectivity, type ProbeResult } from "@/views/link/api";
 import { useQueries, useQueryClient } from "@tanstack/react-query";
 import {
   Activity,
+  ArrowLeftRight,
   ArrowRight,
   ChevronDown,
   Fingerprint,
@@ -383,7 +384,17 @@ export function HomePage() {
               );
             })}
             <span className="route-observer" aria-hidden="true">
-              <img src="/ou-ping-logo.png" width="42" height="42" alt="" />
+              <span className="route-observer-frame">
+                <img
+                  src="/route-observer-cat.png"
+                  width="64"
+                  height="64"
+                  alt=""
+                />
+              </span>
+              <span className="route-observer-direction">
+                <ArrowLeftRight />
+              </span>
             </span>
           </CardContent>
         </Card>

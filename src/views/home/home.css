@@ -1,7 +1,3 @@
-.app-container[data-home] {
-  max-width: 1320px;
-}
-
 .home-page {
   --home-gap: 14px;
   padding-bottom: 10px;
@@ -238,22 +234,51 @@
   left: 50%;
   z-index: 4;
   display: grid;
-  width: 48px;
-  height: 48px;
+  width: 62px;
+  height: 62px;
   place-items: center;
-  overflow: hidden;
-  border: 1px solid #426552;
-  border-radius: 8px;
-  background: #f7fbf9;
-  box-shadow: 0 8px 22px rgb(0 0 0 / 30%);
   transform: translate(-50%, -50%);
   pointer-events: none;
+  animation: ou-observer-drift 5.5s ease-in-out infinite;
+}
+
+.route-observer-frame {
+  display: grid;
+  width: 56px;
+  height: 56px;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid #34493e;
+  border-radius: 8px;
+  background: #f7fbf9;
+  box-shadow: 0 10px 26px rgb(0 0 0 / 20%);
 }
 
 .route-observer img {
-  width: 43px;
-  height: 43px;
-  object-fit: contain;
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+}
+
+.route-observer-direction {
+  position: absolute;
+  bottom: -3px;
+  left: 50%;
+  display: grid;
+  width: 26px;
+  height: 18px;
+  place-items: center;
+  border: 1px solid #34493e;
+  border-radius: 6px;
+  color: #8de4c2;
+  background: #111d17;
+  box-shadow: 0 4px 10px rgb(0 0 0 / 20%);
+  transform: translateX(-50%);
+}
+
+.route-observer-direction svg {
+  width: 13px;
+  height: 13px;
 }
 
 .home-connectivity-card {
@@ -828,11 +853,22 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .route-stage-header [data-slot="card-title"]::before {
+  .route-stage-header [data-slot="card-title"]::before,
+  .route-observer {
     animation: none;
   }
 
   .home-tool-directory > summary > svg {
     transition: none;
+  }
+}
+
+@keyframes ou-observer-drift {
+  0%,
+  100% {
+    transform: translate(-50%, -50%);
+  }
+  50% {
+    transform: translate(-50%, calc(-50% - 2px));
   }
 }

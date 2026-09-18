@@ -1,0 +1,173 @@
+#root {
+  min-height: 100dvh;
+}
+
+.ambient-starfield {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.08;
+}
+
+.dark .ambient-starfield {
+  opacity: 0.55;
+}
+
+.ambient-starfield span {
+  position: absolute;
+  top: var(--star-y);
+  left: var(--star-x);
+  width: var(--star-size);
+  height: var(--star-size);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--primary) 42%, white);
+  box-shadow: 0 0 5px color-mix(in srgb, var(--primary) 32%, transparent);
+  animation: ou-star-drift var(--star-duration) linear var(--star-delay)
+    infinite;
+}
+
+.app-container {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  min-height: 100dvh;
+  max-width: 1320px;
+  flex-direction: column;
+}
+
+.app-container > [data-slot="animated-segmented-tabs"] {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex: 1 0 auto;
+  flex-direction: column;
+}
+
+.app-main {
+  width: 100%;
+  min-width: 0;
+  flex: 1 0 auto;
+  animation: ou-page-settle 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.app-footer {
+  width: 100%;
+  margin-top: auto;
+}
+
+@media (min-width: 48.001rem) {
+  .app-nav {
+    position: sticky;
+    top: 12px;
+    z-index: 30;
+    display: grid;
+    width: 100%;
+    min-height: 72px;
+    grid-template-columns: minmax(168px, 1fr) auto minmax(168px, 1fr);
+    align-items: center;
+    gap: 18px;
+    margin: 0 auto 28px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--card) 96%, transparent);
+    box-shadow: 0 12px 34px rgb(9 22 16 / 10%);
+  }
+
+  .dark .app-nav {
+    background: color-mix(in srgb, var(--card) 97%, transparent);
+    box-shadow: 0 14px 38px rgb(0 0 0 / 20%);
+  }
+
+  .app-nav .site-home-link {
+    justify-self: start;
+  }
+
+  .app-nav .nav-tabs-scroll {
+    width: max-content;
+    max-width: 100%;
+    justify-self: center;
+  }
+
+  .app-nav [role="tablist"] {
+    height: 44px;
+    gap: 7px;
+  }
+
+  .app-nav [role="tab"] {
+    height: 44px;
+    padding-inline: 9px;
+  }
+
+  .app-nav [role="tab"][data-state="active"]::after {
+    bottom: -4px;
+  }
+
+  .app-nav .desktop-preferences {
+    justify-self: end;
+  }
+
+  .app-nav .desktop-preferences button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .brand-mark {
+    width: 44px;
+    height: 44px;
+    flex-basis: 44px;
+  }
+
+  .brand-mark img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .brand-copy strong {
+    font-size: 16px;
+  }
+
+  .brand-copy small {
+    font-size: 11px;
+  }
+}
+
+@keyframes ou-star-drift {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+  }
+  18% {
+    opacity: 0.55;
+  }
+  72% {
+    opacity: 0.22;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(24px, -42px, 0);
+  }
+}
+
+@keyframes ou-page-settle {
+  from {
+    opacity: 0.62;
+    filter: blur(2px);
+    transform: translateY(7px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-starfield span,
+  .app-main {
+    animation: none;
+  }
+}
