@@ -365,18 +365,29 @@ export function SplitResults({ summary = false }: { summary?: boolean }) {
         {summary ? (
           <div className="grid grid-cols-1 items-start gap-x-4 gap-y-1 sm:grid-cols-2">
             {exits.map((geo) => (
-              <div
-                key={geo.ip}
-                className="flex min-w-0 items-center gap-2 rounded-md bg-muted/30 px-2 py-1.5 text-xs"
-              >
+              <div key={geo.ip} className="split-summary-exit">
                 <CountryFlag code={geo.country_code} />
-                <span className="min-w-0 flex-1">
-                  <IpText ip={geo.ip} />
+                <span className="split-summary-copy">
+                  <span className="split-summary-ip">
+                    <IpText ip={geo.ip} />
+                  </span>
+                  <span className="split-summary-geo">
+                    {[geo.country, geo.region, geo.city]
+                      .filter(Boolean)
+                      .filter(
+                        (value, index, all) => all.indexOf(value) === index,
+                      )
+                      .join(" · ") || t("归属地未知")}
+                    {geo.isp ? ` · ${geo.isp}` : ""}
+                    {geo.asn
+                      ? ` · AS${String(geo.asn).replace(/^AS/i, "")}`
+                      : ""}
+                  </span>
                 </span>
                 <UnderlineHover asChild>
                   <button
                     type="button"
-                    className="shrink-0 text-muted-foreground"
+                    className="split-summary-count"
                     onClick={() => {
                       setDetailName(null);
                       setDetailIp(geo.ip);

@@ -25,6 +25,7 @@ import { gptApi } from "@/views/gpt/api";
 import { gptHistoryAtom } from "@/views/gpt/store";
 import { useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
+import { ClaudeIpAssessment } from "./claude-ip-assessment";
 
 export default function AiDiagnostics({ kind }: { kind: "claude" | "gpt" }) {
   const api = kind === "claude" ? claudeApi : gptApi;
@@ -146,6 +147,7 @@ export default function AiDiagnostics({ kind }: { kind: "claude" | "gpt" }) {
           </div>
         </ToolCard>
         <AiNetworkCheck
+          title={kind === "claude" ? t("Claude 可用性检测") : undefined}
           domains={
             kind === "claude"
               ? ["claude.ai", "anthropic.com"]
@@ -160,6 +162,7 @@ export default function AiDiagnostics({ kind }: { kind: "claude" | "gpt" }) {
           />
         </AiNetworkCheck>
       </div>
+      {kind === "claude" && <ClaudeIpAssessment ip={ip} />}
       <Accordion type="multiple" className="ai-details">
         <AccordionItem value="history">
           <AccordionTrigger>

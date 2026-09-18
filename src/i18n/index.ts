@@ -53,7 +53,7 @@ export function setLocale(next: Locale) {
 
 export function initializeLocale() {
   document.documentElement.lang = locale;
-  document.title = t("IP 网络工具概览");
+  document.title = "OU PING · 欧记分流检测";
   const description = document.querySelector('meta[name="description"]');
   if (description)
     description.setAttribute(

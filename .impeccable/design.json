@@ -1,0 +1,234 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-19T00:01:28+08:00",
+  "title": "Design System: OU PING",
+  "extensions": {
+    "colorMeta": {
+      "signal-green": {
+        "role": "primary",
+        "displayName": "Signal Green",
+        "canonical": "#087f5b",
+        "tonalRamp": [
+          "#03251b",
+          "#054332",
+          "#076148",
+          "#087f5b",
+          "#36a47e",
+          "#73c5a7",
+          "#b5e0cf",
+          "#ebf8f2"
+        ]
+      },
+      "paper-cool": {
+        "role": "neutral",
+        "displayName": "Cool Paper",
+        "canonical": "#f3f6f4",
+        "tonalRamp": [
+          "#171a18",
+          "#323734",
+          "#555d58",
+          "#7b8680",
+          "#a6afa9",
+          "#cbd1cd",
+          "#e5e9e6",
+          "#f3f6f4"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Network Ink",
+        "canonical": "#121916",
+        "tonalRamp": [
+          "#07100c",
+          "#121916",
+          "#29332e",
+          "#46524c",
+          "#6d7a73",
+          "#9ba69f",
+          "#cbd2ce",
+          "#edf2ef"
+        ]
+      },
+      "information": {
+        "role": "secondary",
+        "displayName": "Information Teal",
+        "canonical": "#176979",
+        "tonalRamp": [
+          "#072229",
+          "#0b3b46",
+          "#115463",
+          "#176979",
+          "#3c8795",
+          "#72abb5",
+          "#b5d3d8",
+          "#edf7f8"
+        ]
+      },
+      "warning": {
+        "role": "tertiary",
+        "displayName": "Measured Amber",
+        "canonical": "#c78000",
+        "tonalRamp": [
+          "#321f00",
+          "#583700",
+          "#815200",
+          "#aa6c00",
+          "#c78000",
+          "#e8ad43",
+          "#f4d08e",
+          "#fff5de"
+        ]
+      },
+      "danger": {
+        "role": "tertiary",
+        "displayName": "Incident Red",
+        "canonical": "#c13946",
+        "tonalRamp": [
+          "#341013",
+          "#5b1c22",
+          "#842731",
+          "#a9313d",
+          "#c13946",
+          "#dc737d",
+          "#ecabb0",
+          "#fbe9ea"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Working Display",
+        "purpose": "One page title, never a marketing hero."
+      },
+      "body": {
+        "displayName": "Diagnostic Body",
+        "purpose": "Compact explanations and network metadata."
+      },
+      "label": {
+        "displayName": "Evidence Label",
+        "purpose": "States, field names, and compact source metadata."
+      }
+    },
+    "shadows": [
+      {
+        "name": "ambient-low",
+        "value": "0 8px 28px rgb(17 35 27 / 5%)",
+        "purpose": "Light-mode diagnostic panels."
+      },
+      {
+        "name": "ambient-night",
+        "value": "0 12px 32px rgb(0 0 0 / 20%)",
+        "purpose": "Dark-mode diagnostic panels."
+      }
+    ],
+    "motion": [
+      {
+        "name": "state-fast",
+        "value": "160ms ease",
+        "purpose": "Hover, status, and small state transitions."
+      },
+      {
+        "name": "value-settle",
+        "value": "500ms ease",
+        "purpose": "Measured value and gauge updates."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile",
+        "value": "768px"
+      },
+      {
+        "name": "narrow",
+        "value": "576px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Compact command for a single primary action.",
+      "html": "<button class=\"ds-btn-primary\">Run check</button>",
+      "css": ".ds-btn-primary { height: 32px; padding: 0 12px; border: 1px solid #087f5b; border-radius: 8px; background: #087f5b; color: #fff; font: 600 13px/1 'Geist Variable', system-ui, sans-serif; transition: background 160ms ease; } .ds-btn-primary:hover { background: #076e50; } .ds-btn-primary:focus-visible { outline: 2px solid #087f5b; outline-offset: 2px; }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary command used beside live data.",
+      "html": "<button class=\"ds-btn-outline\">Run again</button>",
+      "css": ".ds-btn-outline { height: 28px; padding: 0 10px; border: 1px solid #d6dfda; border-radius: 8px; background: #fff; color: #121916; font: 560 12px/1 'Geist Variable', system-ui, sans-serif; transition: background 160ms ease; } .ds-btn-outline:hover { background: #edf2ef; } .ds-btn-outline:focus-visible { outline: 2px solid #087f5b; outline-offset: 2px; }"
+    },
+    {
+      "name": "Status Chip",
+      "kind": "chip",
+      "description": "Small evidence label for a returned network state.",
+      "html": "<span class=\"ds-status-chip\">Operational</span>",
+      "css": ".ds-status-chip { display: inline-flex; align-items: center; min-height: 22px; padding: 2px 7px; border-radius: 6px; background: #dcefe7; color: #075c43; font: 650 11px/1.35 'Geist Variable', system-ui, sans-serif; }"
+    },
+    {
+      "name": "Tool Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Bounded diagnostic panel for one coherent data group.",
+      "html": "<section class=\"ds-tool-card\"><h3>Network connectivity</h3><p>Measured results stay aligned and source-aware.</p></section>",
+      "css": ".ds-tool-card { padding: 16px; border: 1px solid #d6dfda; border-radius: 8px; background: #fff; color: #121916; box-shadow: 0 8px 28px rgb(17 35 27 / 5%); font-family: 'Geist Variable', system-ui, sans-serif; } .ds-tool-card h3 { margin: 0 0 8px; font-size: 16px; line-height: 1.35; } .ds-tool-card p { margin: 0; color: #56635c; font-size: 13px; line-height: 1.6; }"
+    },
+    {
+      "name": "Exit Dossier",
+      "kind": "custom",
+      "description": "Signature current-egress readout with evidence hierarchy.",
+      "html": "<section class=\"ds-exit\"><small>IPv4 · External probe</small><div><strong>172.93.187.112</strong><b>77</b></div><p>United States · California · Los Angeles</p><p>WebNX · AS18450</p></section>",
+      "css": ".ds-exit { padding: 16px; border: 1px solid #43a784; border-radius: 8px; background: #fff; color: #121916; font-family: 'Geist Variable', system-ui, sans-serif; } .ds-exit small, .ds-exit p { color: #56635c; } .ds-exit div { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 8px 0; } .ds-exit strong { color: #087f5b; font-size: 21px; } .ds-exit b { color: #087f5b; font-size: 40px; line-height: 1; } .ds-exit p { margin: 4px 0 0; font-size: 12px; }"
+    },
+    {
+      "name": "Desktop Navigation",
+      "kind": "nav",
+      "description": "Ruled brand-and-tool navigation for wide screens.",
+      "html": "<nav class=\"ds-nav\"><strong>OU PING</strong><a class=\"active\">Overview</a><a>AI</a><a>Network</a></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; gap: 20px; min-height: 56px; border-bottom: 1px solid #d6dfda; color: #56635c; font: 500 13px/1 'Geist Variable', system-ui, sans-serif; } .ds-nav strong { color: #121916; } .ds-nav a { position: relative; padding: 20px 2px; } .ds-nav a:hover, .ds-nav a.active { color: #087f5b; } .ds-nav a.active::after { position: absolute; right: 2px; bottom: 7px; left: 2px; height: 2px; content: ''; background: #087f5b; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Signal Desk",
+    "overview": "OU PING is a quiet network operations surface: cool paper, precise rules, compact evidence, and green reserved for verified signal. The wide-eyed cat mark provides the personality; the interface itself remains restrained so changing IP, location, latency, and risk data are easy to compare. The design favors unframed page hierarchy followed by bounded diagnostic panels. It avoids decorative glow, glass, oversized type, and promotional composition. Uncertainty remains visible instead of being styled into confidence.",
+    "keyCharacteristics": [
+      "Dense, scan-first diagnostic panels with clear row alignment.",
+      "Cool neutral surfaces with sparse signal green, amber, cyan, and red.",
+      "An 8px maximum component radius and restrained ambient depth.",
+      "The OU cat mark paired with a compact bilingual lockup.",
+      "Light and dark modes that preserve the same information hierarchy."
+    ],
+    "rules": [
+      {
+        "name": "The Evidence Color Rule",
+        "body": "Green, amber, cyan, and red must correspond to an actual state or action. They are not section decoration.",
+        "section": "colors"
+      },
+      {
+        "name": "The Data First Rule",
+        "body": "IP addresses, scores, locations, and operators may gain weight; explanatory prose stays quieter than the evidence.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Evidence Rule",
+        "body": "No hard offset shadow, colored glow, or decorative glass. A panel is lifted only enough to remain legible against the page.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do put live IP, location, ISP, ASN, latency, and source attribution ahead of explanatory copy.",
+      "Do reserve state colors for measured or returned results.",
+      "Do preserve explicit loading, unknown, unavailable, detected, and clear states.",
+      "Do keep desktop and mobile information order equivalent even when the layout reflows."
+    ],
+    "donts": [
+      "Don't fabricate example IPs, unlock claims, native-IP labels, safety verdicts, or latency values in the product UI.",
+      "Don't use gradients, glass, large decorative type, colored side stripes, or nested cards as a substitute for hierarchy.",
+      "Don't treat missing risk data as a clean result.",
+      "Don't hide the OU PING name or cat mark behind generic tool branding."
+    ]
+  }
+}

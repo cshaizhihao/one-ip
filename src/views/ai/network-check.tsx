@@ -23,9 +23,11 @@ import { probeAiDomain } from "./probe";
 export function AiNetworkCheck({
   domains,
   children,
+  title,
 }: {
   domains: string[];
   children?: ReactNode;
+  title?: string;
 }) {
   const [refreshing, setRefreshing] = useState(false);
   const query = useQuery({
@@ -68,7 +70,7 @@ export function AiNetworkCheck({
     <Card className="ai-network-check">
       <CardHeader>
         <div className="flex items-center justify-between gap-3">
-          <CardTitle>{t("网络连通性")}</CardTitle>
+          <CardTitle>{title ?? t("网络连通性")}</CardTitle>
           <button
             type="button"
             className="shrink-0 text-xs font-normal text-primary enabled:hover:underline underline-offset-4"

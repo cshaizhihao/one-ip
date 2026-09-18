@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { BuildInfo } from "@/components/build-info";
 import { LanguageSelect } from "@/components/language-select";
@@ -9,7 +9,6 @@ import { Pending } from "@/components/toolkit";
 import { AnimatedSegmentedTabs } from "@/components/ui/animated-segmented-tabs";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { UnderlineHover } from "@/components/underline-hover";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { useTheme } from "@/hooks/use-theme";
 import { t } from "@/i18n";
 import { Search, Globe, Cable, Activity, Sparkles } from "lucide-react";
@@ -17,8 +16,6 @@ import { Tabs } from "radix-ui";
 import { Toaster } from "sonner";
 import { RouteErrorBoundary } from "./route-error-boundary";
 import { activeNavigationRoute, navigationRoutes } from "./routes";
-
-const MobileNavGlass = lazy(() => import("@/components/mobile-nav-glass"));
 
 const menuIcons = {
   "/": Search,
@@ -42,9 +39,22 @@ const options = navigationRoutes.map((route) => {
   };
 });
 
+function BrandLockup({ compact = false }: { compact?: boolean }) {
+  return (
+    <span className="brand-lockup" data-compact={compact || undefined}>
+      <span className="brand-mark">
+        <img src="/ou-ping-logo.png" width="42" height="42" alt="" />
+      </span>
+      <span className="brand-copy">
+        <strong>OU PING</strong>
+        <small>欧记分流检测</small>
+      </span>
+    </span>
+  );
+}
+
 export function AppLayout() {
   const { resolvedTheme } = useTheme();
-  const mobile = useIsMobile();
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const navRef = useRef<HTMLElement>(null);
@@ -82,10 +92,10 @@ export function AppLayout() {
         <header className="mobile-site-header">
           <Link
             to="/"
-            className="flex items-center gap-2 text-sm font-semibold"
+            className="mobile-brand-link"
             aria-label={t("IP 网络工具概览")}
           >
-            <img src="/icon.svg" width="24" height="24" alt="" />
+            <BrandLockup compact />
           </Link>
           <div className="flex items-center gap-1">
             <ShareSite />
@@ -107,17 +117,12 @@ export function AppLayout() {
           triggerClassName="h-9 flex-none rounded-lg border-0 px-2 text-[13px] text-muted-foreground hover:bg-accent/50 data-[state=active]:font-semibold data-[state=active]:text-primary"
           renderList={(list) => (
             <nav ref={navRef} className="app-nav" aria-label={t("主导航")}>
-              {mobile && (
-                <Suspense fallback={null}>
-                  <MobileNavGlass light={resolvedTheme === "light"} />
-                </Suspense>
-              )}
               <Link
                 to="/"
                 aria-label={t("IP 网络工具概览")}
-                className="site-home-link flex size-9 shrink-0 items-center justify-center rounded-lg focus-visible:outline-2 focus-visible:outline-ring"
+                className="site-home-link focus-visible:outline-2 focus-visible:outline-ring"
               >
-                <img src="/icon.svg" alt="" width="32" height="32" />
+                <BrandLockup />
               </Link>
               <ScrollArea className="nav-tabs-scroll">
                 {list}
@@ -148,14 +153,14 @@ export function AppLayout() {
           </Tabs.Content>
         </AnimatedSegmentedTabs>
         <footer className="app-footer">
-          © {new Date().getFullYear()} IP ·{" "}
+          © {new Date().getFullYear()} OU PING · 欧记分流检测 ·{" "}
           <UnderlineHover asChild>
             <a
-              href="https://huzhihui.com/blog/one-ip-guide"
+              href="https://github.com/zhihui-hu/one-ip"
               target="_blank"
               rel="noopener noreferrer"
             >
-              {t("使用文档")}
+              {t("上游项目")}
             </a>
           </UnderlineHover>{" "}
           ·{" "}
@@ -173,18 +178,14 @@ export function AppLayout() {
           ·{" "}
           <UnderlineHover asChild>
             <a
-              href="https://github.com/zhihui-hu/one-ip"
+              href="https://github.com/cshaizhihao/one-ip"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 align-middle"
             >
-              GitHub
+              {t("本站源码")}
             </a>
           </UnderlineHover>{" "}
-          ·{" "}
-          <UnderlineHover asChild>
-            <a href="mailto:ip@huzhihui.com">{t("联系作者")}</a>
-          </UnderlineHover>
         </footer>
       </div>
       <aside aria-label={t("站点通知")} className="update-notices">

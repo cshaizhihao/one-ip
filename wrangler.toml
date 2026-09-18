@@ -1,7 +1,15 @@
-name = "one-ip"
+name = "ou-ping"
 main = "public/worker/index.js"
 compatibility_date = "2026-09-09"
 compatibility_flags = ["nodejs_compat"]
+
+[[routes]]
+pattern = "seekping.com"
+custom_domain = true
+
+[[routes]]
+pattern = "www.seekping.com"
+custom_domain = true
 
 [assets]
 directory = "./dist"

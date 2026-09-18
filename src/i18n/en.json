@@ -1708,5 +1708,22 @@
   "分享当前页面": "Share this page",
   "扫码或复制链接，打开当前页面。": "Scan or copy the link to open this page.",
   "扫码打开当前页面": "Scan to open this page",
-  "当前页面链接": "Current page link"
+  "当前页面链接": "Current page link",
+  "上游项目": "Upstream project",
+  "本站源码": "Site source",
+  "分流总览": "Egress overview",
+  "正在从多个网络路径核对当前出口、归属地与运营商。": "Comparing current egress, location and ISP across multiple network paths.",
+  "Claude 可用性检测": "Claude availability check",
+  "Claude 出口 IP 画像": "Claude egress IP profile",
+  "正在查询出口属性与风险标记…": "Looking up egress attributes and risk flags…",
+  "出口 IP 已获取，但 Net.Coffee 风险数据暂时不可用。": "The egress IP was detected, but Net.Coffee risk data is temporarily unavailable.",
+  "Claude AI 信任评分": "Claude AI trust score",
+  "Claude AI 出口 IP 属性": "Claude AI egress IP attributes",
+  "Claude AI 出口 IP 安全检测": "Claude AI egress IP security check",
+  "已标记": "Flagged",
+  "未检出": "Not detected",
+  "出口 IP": "Egress IP",
+  "评分和标记来自 Net.Coffee，不是 Claude 官方的账号风控结论；未知不等于安全。": "Scores and flags come from Net.Coffee, not Claude's official account risk system. Unknown does not mean safe.",
+  "查看完整 IP 报告": "View full IP report",
+  "如对本站使用或隐私有疑问，请通过源码仓库提交 Issue。": "For questions about this site or privacy, open an issue in the source repository."
 }

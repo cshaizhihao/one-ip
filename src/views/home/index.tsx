@@ -31,6 +31,7 @@ import {
   Crown,
   Fingerprint,
   Network,
+  RefreshCw,
   Search,
   ShieldCheck,
   Sparkles,
@@ -119,7 +120,7 @@ export function HomePage() {
     `${mobile}-${orderedTargets.map(({ target }) => target.name).join("|")}`,
   );
   useEffect(() => {
-    document.title = t("概览 - IP 网络工具");
+    document.title = "OU PING · 欧记分流检测";
   }, []);
   const probes = useQueries({
     queries: [
@@ -173,20 +174,27 @@ export function HomePage() {
   const typeByIp = new Map(ips.map((ip, index) => [ip, typeQueries[index]]));
   return (
     <div className="home-page">
-      <div className="mb-3 flex items-center justify-between gap-3">
-        <div className="flex items-center gap-1">
-          <h1 className="text-sm font-semibold">{t("网络概览")}</h1>
-          <PrivacyToggle iconOnly />
+      <section className="home-command-bar">
+        <div className="home-command-copy">
+          <h1>{t("分流总览")}</h1>
+          <p>{t("正在从多个网络路径核对当前出口、归属地与运营商。")}</p>
         </div>
         <ActionButton
           size="sm"
           variant="outline"
           busy={refreshing}
           onClick={refresh}
+          aria-label={refreshing ? t("检测中...") : t("重新检测")}
+          className="home-refresh-action"
         >
-          {refreshing ? t("检测中...") : t("重新检测")}
+          <RefreshCw
+            className={refreshing ? "animate-spin" : ""}
+            aria-hidden="true"
+          />
+          <span>{refreshing ? t("检测中...") : t("重新检测")}</span>
         </ActionButton>
-      </div>
+        <PrivacyToggle iconOnly />
+      </section>
       <div className="home-overview home-ip-overview">
         {cards.map(({ query, data, version, label }, index) => {
           const pending = !data && query.isPending;
@@ -252,6 +260,7 @@ export function HomePage() {
           return (
             <Card
               key={index}
+              data-exit={index === 0 ? "domestic" : "external"}
               className={`home-primary-card relative${score === 100 ? " ip-dossier-perfect" : ""}`}
             >
               {score === 100 && <PerfectScoreEffects />}

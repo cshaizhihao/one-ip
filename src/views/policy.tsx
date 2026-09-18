@@ -111,13 +111,15 @@ export default function PolicyPage({ page }: { page: "terms" | "privacy" }) {
       ))}
       <ToolCard title={t("联系作者")}>
         <p className="mb-2 text-sm text-muted-foreground">
-          {t("如对本站使用或隐私有疑问，请通过邮箱联系作者。")}
+          {t("如对本站使用或隐私有疑问，请通过源码仓库提交 Issue。")}
         </p>
         <a
           className="text-sm text-primary hover:underline"
-          href="mailto:ip@huzhihui.com"
+          href="https://github.com/cshaizhihao/one-ip/issues"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          ip@huzhihui.com
+          github.com/cshaizhihao/one-ip/issues
         </a>
       </ToolCard>
     </div>
