@@ -86,10 +86,10 @@ export function PlatformSummary() {
     orderedPlatforms.map(({ platform }) => platform.id).join("|"),
   );
   return (
-    <div ref={ref} className="grid grid-cols-1 gap-3 mb-3 md:grid-cols-2">
-      <Card>
+    <div ref={ref} className="home-platform-summary">
+      <Card className="home-ai-summary">
         <CardHeader>
-          <CardTitle>{t("AI 访问概览")}</CardTitle>
+          <CardTitle as="h2">{t("AI 访问概览")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div
@@ -152,10 +152,10 @@ export function PlatformSummary() {
           </p>
         </CardContent>
       </Card>
-      <Card>
+      <Card className="home-service-summary">
         <CardHeader>
           <div className="row-between">
-            <CardTitle>{t("服务状态")}</CardTitle>
+            <CardTitle as="h2">{t("服务状态")}</CardTitle>
             <UnderlineHover asChild>
               <Link to="/status" className="small muted">
                 {t("全部服务 ›")}

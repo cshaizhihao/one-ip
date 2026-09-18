@@ -8,7 +8,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ResponsiveDialog } from "@/components/ui/responsive-dialog";
-import { UnderlineHover } from "@/components/underline-hover";
 import { t } from "@/i18n";
 import type { Geo } from "@/lib/types";
 import { useQueries } from "@tanstack/react-query";
@@ -343,16 +342,32 @@ export function SplitResults({ summary = false }: { summary?: boolean }) {
       rows.flatMap((row) => (row.geo ? [[row.geo.ip, row.geo] as const] : [])),
     ).values(),
   ];
+  const exitRows = exits
+    .map((geo) => ({
+      geo,
+      count: rows.filter((row) => row.geo?.ip === geo.ip).length,
+    }))
+    .sort((a, b) => b.count - a.count || a.geo.ip.localeCompare(b.geo.ip));
   const detail = rows.find((row) => row.name === detailName);
   const pending = inspectionQueries.some((query) => query.isFetching);
   const Container = summary ? Card : "div";
   const Content = summary ? CardContent : "div";
   return (
-    <Container ref={container} className="mb-3">
+    <Container
+      ref={container}
+      className={summary ? "home-split-summary" : "mb-3"}
+    >
       {summary && (
         <CardHeader>
           <div className="row-between">
-            <CardTitle>{t("网站分流出口")}</CardTitle>
+            <div className="flex min-w-0 items-center gap-2">
+              <CardTitle as="h2">{t("网站分流出口")}</CardTitle>
+              {exitRows.length > 0 && (
+                <span className="split-route-total">
+                  {exitRows.length} {t("条出口")}
+                </span>
+              )}
+            </div>
             {summary && (
               <Link className="small muted" to="/network/connectivity">
                 {t("查看全部 ›")}
@@ -363,28 +378,42 @@ export function SplitResults({ summary = false }: { summary?: boolean }) {
       )}
       <Content>
         {summary ? (
-          <div className="grid grid-cols-1 items-start gap-x-4 gap-y-1 sm:grid-cols-2">
-            {exits.map((geo) => (
-              <div key={geo.ip} className="split-summary-exit">
-                <CountryFlag code={geo.country_code} />
-                <span className="split-summary-copy">
-                  <span className="split-summary-ip">
-                    <IpText ip={geo.ip} />
+          <div className="split-route-board">
+            {exitRows.length > 0 && (
+              <div className="split-route-columns" aria-hidden="true">
+                <span>{t("出口 IP")}</span>
+                <span>{t("归属地")}</span>
+                <span>{t("运营商 / ASN")}</span>
+                <span>{t("站点")}</span>
+              </div>
+            )}
+            <div className="split-route-list">
+              {exitRows.slice(0, 5).map(({ geo, count }) => (
+                <div key={geo.ip} className="split-route-row">
+                  <span className="split-route-identity">
+                    <CountryFlag code={geo.country_code} />
+                    <span className="split-summary-ip">
+                      <IpText ip={geo.ip} />
+                    </span>
                   </span>
-                  <span className="split-summary-geo">
+                  <span className="split-route-location">
                     {[geo.country, geo.region, geo.city]
                       .filter(Boolean)
                       .filter(
                         (value, index, all) => all.indexOf(value) === index,
                       )
                       .join(" · ") || t("归属地未知")}
-                    {geo.isp ? ` · ${geo.isp}` : ""}
-                    {geo.asn
-                      ? ` · AS${String(geo.asn).replace(/^AS/i, "")}`
-                      : ""}
                   </span>
-                </span>
-                <UnderlineHover asChild>
+                  <span className="split-route-network">
+                    {[
+                      geo.isp,
+                      geo.asn
+                        ? `AS${String(geo.asn).replace(/^AS/i, "")}`
+                        : undefined,
+                    ]
+                      .filter(Boolean)
+                      .join(" · ") || "—"}
+                  </span>
                   <button
                     type="button"
                     className="split-summary-count"
@@ -393,12 +422,12 @@ export function SplitResults({ summary = false }: { summary?: boolean }) {
                       setDetailIp(geo.ip);
                     }}
                   >
-                    {rows.filter((row) => row.geo?.ip === geo.ip).length}
-                    {t("个站点")}
+                    <strong>{count}</strong>
+                    <span>{t("站点")}</span>
                   </button>
-                </UnderlineHover>
-              </div>
-            ))}
+                </div>
+              ))}
+            </div>
             <p className="home-note col-span-full pt-1">
               {pending ? (
                 <Pending>{t("正在检测分流出口…")}</Pending>

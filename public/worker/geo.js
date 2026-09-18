@@ -1,4 +1,6 @@
-import { publicIp, upstream } from "./http.js";
+import { HttpError, publicIp, upstream } from "./http.js";
+
+const cachedLookup = { cf: { cacheEverything: true, cacheTtl: 600 } };
 
 export function cfGeo(request) {
   const cf = request.cf ?? {};
@@ -18,7 +20,10 @@ export function cfGeo(request) {
 }
 export async function geoIp(ip) {
   publicIp(ip);
-  const data = await upstream(`https://ipwho.is/${encodeURIComponent(ip)}`);
+  const data = await upstream(
+    `https://ipwho.is/${encodeURIComponent(ip)}`,
+    cachedLookup,
+  );
   if (!data.success) throw new Error("IP 归属地数据源未返回有效结果");
   return {
     ip: data.ip,
@@ -38,6 +43,7 @@ export async function secondaryGeo(ip) {
   publicIp(ip);
   const data = await upstream(
     `https://api.ip.sb/geoip/${encodeURIComponent(ip)}`,
+    cachedLookup,
   );
   if (!data.ip) throw new Error("第二归属地数据源未返回结果");
   return {
@@ -51,4 +57,25 @@ export async function secondaryGeo(ip) {
     longitude: data.longitude,
     source: "ip.sb",
   };
+}
+
+export async function lookupGeo(ip) {
+  publicIp(ip);
+  const results = await Promise.allSettled([geoIp(ip), secondaryGeo(ip)]);
+  const sources = results.flatMap((result) =>
+    result.status === "fulfilled" ? [result.value] : [],
+  );
+  if (!sources.length) {
+    const limited = results.some(
+      (result) =>
+        result.status === "rejected" &&
+        result.reason instanceof HttpError &&
+        result.reason.status === 429,
+    );
+    throw new HttpError(
+      limited ? 429 : 502,
+      limited ? "归属信息数据源限流，请稍后重试" : "归属信息数据源暂不可用",
+    );
+  }
+  return { geo: sources[0], sources };
 }

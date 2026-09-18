@@ -4598,12 +4598,12 @@ body {
   --sidebar-primary: #087f5b;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-ring: #087f5b;
-  --subtle: #708078;
+  --subtle: #5f6d66;
   --success: #087f5b;
   --success-soft: #dcefe7;
   --success-text: #075c43;
-  --good: #4eaa82;
-  --warning: #c78000;
+  --good: #247a58;
+  --warning: #916000;
   --danger: #c13946;
   --info-soft: #ddecf0;
   --info-text: #176979;
@@ -5088,6 +5088,11 @@ body {
     margin-bottom: 10px;
     padding-bottom: 9px;
     border-bottom: 1px solid var(--border);
+  }
+
+  .mobile-site-header button {
+    min-width: 44px;
+    min-height: 44px;
   }
 
   .brand-lockup[data-compact] {

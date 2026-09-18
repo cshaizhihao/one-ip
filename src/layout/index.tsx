@@ -88,7 +88,7 @@ export function AppLayout() {
 
   return (
     <>
-      <div className="app-container">
+      <div className="app-container" data-home={pathname === "/" || undefined}>
         <header className="mobile-site-header">
           <Link
             to="/"

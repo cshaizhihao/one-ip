@@ -1,7 +1,7 @@
 import { getAiStatus } from "./ai-status.js";
 import { challengeConfig, verifyChallenge } from "./challenges.js";
 import { getCloudStatus } from "./cloud-status.js";
-import { cfGeo, geoIp, secondaryGeo } from "./geo.js";
+import { cfGeo, lookupGeo } from "./geo.js";
 import { HttpError, inputJson, json, publicIp } from "./http.js";
 import { siteIcon } from "./icons.js";
 import { ipHealth } from "./ip-health.js";
@@ -75,23 +75,23 @@ export default {
       if (path.startsWith("/ip-type/"))
         return await ipType(decodeURIComponent(path.slice(9)), url.origin);
       if (path.startsWith("/geoip/"))
-        return json(await geoIp(publicIp(decodeURIComponent(path.slice(7)))));
+        return json(
+          (await lookupGeo(publicIp(decodeURIComponent(path.slice(7))))).geo,
+        );
       if (path.startsWith("/ip/network/"))
         return json(
           await ipNetwork(publicIp(decodeURIComponent(path.slice(12)))),
         );
       if (path.startsWith("/ip/lookup/")) {
         const ip = publicIp(decodeURIComponent(path.slice(11)));
-        const [primary, secondary, registration] = await Promise.allSettled([
-          geoIp(ip),
-          secondaryGeo(ip),
+        const [location, registration] = await Promise.allSettled([
+          lookupGeo(ip),
           lookupRegistration(ip),
         ]);
-        const sources = [primary, secondary].flatMap((r) =>
-          r.status === "fulfilled" ? [r.value] : [],
-        );
+        const sources =
+          location.status === "fulfilled" ? location.value.sources : [];
         return json({
-          geo: sources[0] ?? { ip },
+          geo: location.status === "fulfilled" ? location.value.geo : { ip },
           sources,
           rdap:
             registration.status === "fulfilled"
